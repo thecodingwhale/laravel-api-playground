@@ -11,6 +11,33 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class LoginController extends Controller
 {
+    /**
+     * @SWG\Post(
+     *     path="/api/auth/login",
+     *     summary="Login.",
+     *     tags={"auth"},
+     *     description="Login.",
+     *     operationId="login",
+     *     @SWG\Parameter(
+     *         name="email",
+     *         in="query",
+     *         description="email",
+     *         required=true,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="password",
+     *         in="query",
+     *         description="password",
+     *         required=true,
+     *         type="string",
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         description=""
+     *     )
+     * )
+     */
     public function login(LoginRequest $request, JWTAuth $JWTAuth)
     {
         $credentials = $request->only(['email', 'password']);

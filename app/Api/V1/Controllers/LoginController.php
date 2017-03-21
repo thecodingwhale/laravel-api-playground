@@ -53,10 +53,16 @@ class LoginController extends Controller
             throw new HttpException(500);
         }
 
+        $user = $JWTAuth->toUser($token);
         return response()
             ->json([
                 'status' => 'ok',
-                'token' => $token
+                'token' => $token,
+                'user' => [
+                    'id' => $user->id,
+                    'email' => $user->email,
+                    'name' => $user->name
+                ]
             ]);
     }
 }

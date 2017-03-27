@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use JWTAuth;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -26,5 +27,23 @@ abstract class TestCase extends BaseTestCase
         $app->make(Kernel::class)->bootstrap();
 
         return $app;
+    }
+
+    /**
+     * Return request headers needed to interact with the API.
+     *
+     * @return Array array of headers.
+     */
+    protected function headers($user = null)
+    {
+        $headers = ['Accept' => 'application/json'];
+
+        if (!is_null($user)) {
+            $token = JWTAuth::fromUser($user);
+            JWTAuth::setToken($token);
+            $headers['Authorization'] = 'Bearer '.$token;
+        }
+
+        return $headers;
     }
 }

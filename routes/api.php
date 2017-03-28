@@ -16,18 +16,24 @@ $api->version('v1', function (Router $api) {
 
     $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
         $api->get('hello', 'App\\Api\\V1\\Controllers\\HelloController@hello');
-        $api->get('protected', function() {
-            return response()->json([
-                'message' => 'Access to this item is only for authenticated user. Provide a token in your request!'
-            ]);
-        });
-        $api->get('refresh', [
-            'middleware' => 'jwt.refresh',
-            function() {
-                return response()->json([
-                    'message' => 'By accessing this endpoint, you can refresh your access token at each request. Check out this response headers!'
-                ]);
-            }
-        ]);
+        // $api->get('protected', function() {
+        //     return response()->json([
+        //         'message' => 'Access to this item is only for authenticated user. Provide a token in your request!'
+        //     ]);
+        // });
+        // $api->get('refresh', [
+        //     'middleware' => 'jwt.refresh',
+        //     function() {
+        //         return response()->json([
+        //             'message' => 'By accessing this endpoint, you can refresh your access token at each request. Check out this response headers!'
+        //         ]);
+        //     }
+        // ]);
+    });
+
+    $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
+        $api->resource('post', 'App\\Api\\V1\\Controllers\\PostController', ['only' => [
+            'store'
+        ]]);
     });
 });

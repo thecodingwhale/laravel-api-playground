@@ -38,4 +38,12 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = Hash::make($value);
     }
+
+    /**
+     * Get the posts of a user.
+     */
+    public function posts()
+    {
+        return $this->hasMany('App\Post');
+    }
 }

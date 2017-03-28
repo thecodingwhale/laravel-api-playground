@@ -56,6 +56,35 @@
                 }
             }
         },
+        "/api/post": {
+            "post": {
+                "tags": [
+                    "post"
+                ],
+                "summary": "Add a new post.",
+                "description": "A user can add a new post.",
+                "operationId": "signup",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "title",
+                        "type": "string"
+                    },
+                    {
+                        "name": "content",
+                        "in": "query",
+                        "description": "content",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "this is a sample description"
+                    }
+                }
+            }
+        },
         "/api/auth/signup": {
             "post": {
                 "tags": [

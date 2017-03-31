@@ -40,4 +40,29 @@ class PostControllerTest extends TestCase
         $this->assertEquals(1, Post::count());
         $this->assertEquals(1, Post::where('user_id', $this->user->id)->count());
     }
+
+    public function testItShouldEditAExistingPost()
+    {
+        $newPost = new Post([
+            'title' => 'post title',
+            'content' => 'post content',
+            'user_id' => $this->user->id
+        ]);
+
+        $newPost->save();
+
+        $post = $this->patch('api/post/' . $newPost->id, [
+            'title' => 'edited post title',
+            'content' => 'edited post content'
+        ], $this->headers($this->user));
+
+        $post->assertJsonStructure([
+            'status'
+        ])->assertJson([
+            'status' => 'ok'
+        ])->assertStatus(200);
+
+        $this->assertEquals('edited post title', Post::find($newPost->id)->first()->title);
+        $this->assertEquals('edited post content', Post::find($newPost->id)->first()->content);
+    }
 }

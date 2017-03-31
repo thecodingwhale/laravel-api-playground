@@ -15,7 +15,6 @@ class PostController extends Controller
      *     summary="Add a new post.",
      *     tags={"post"},
      *     description="A user can add a new post.",
-     *     operationId="signup",
      *     @SWG\Parameter(
      *         name="title",
      *         in="query",
@@ -44,6 +43,43 @@ class PostController extends Controller
             'content' => $request->input('content'),
             'user_id' => $user->id
         ]);
+        $post->save();
+
+        return response()->json([
+            'status' => 'ok'
+        ]);
+    }
+
+    /**
+     * @SWG\Patch(
+     *     path="/api/post/{id}",
+     *     summary="update a post by id.",
+     *     tags={"post"},
+     *     description="A user can update a post by id.",
+     *     @SWG\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="id",
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="body",
+     *         in="body",
+     *         description="foo bar",
+     *         required=true,
+     *         @SWG\Schema(),
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="this is a sample description"
+     *     )
+     * )
+     */
+    public function update($postId, PostRequest $request)
+    {
+        $post = Post::find($postId);
+        $post->title = $request->input('title');
+        $post->content = $request->input('content');
         $post->save();
 
         return response()->json([

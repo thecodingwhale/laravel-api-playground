@@ -63,7 +63,6 @@
                 ],
                 "summary": "Add a new post.",
                 "description": "A user can add a new post.",
-                "operationId": "signup",
                 "parameters": [
                     {
                         "name": "title",
@@ -76,6 +75,35 @@
                         "in": "query",
                         "description": "content",
                         "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "this is a sample description"
+                    }
+                }
+            }
+        },
+        "/api/post/{id}": {
+            "patch": {
+                "tags": [
+                    "post"
+                ],
+                "summary": "update a post by id.",
+                "description": "A user can update a post by id.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "foo bar",
+                        "required": true,
+                        "schema": {}
                     }
                 ],
                 "responses": {

@@ -24,6 +24,31 @@ class PostControllerTest extends TestCase
         $this->user->save();
     }
 
+    public function testItShouldGetAPostByID()
+    {
+        $newPost = new Post([
+            'title' => 'post title',
+            'content' => 'post content',
+            'user_id' => $this->user->id
+        ]);
+
+        $newPost->save();
+
+        $post = $this->get('api/post/' . $newPost->id, [], $this->headers($this->user));
+
+        $post->assertJsonStructure([
+            'user_id',
+            'id',
+            'title',
+            'content',
+        ])->assertJson([
+            'user_id' => $newPost->user_id,
+            'id' => $newPost->id,
+            'title' => $newPost->title,
+            'content' => $newPost->title
+        ])->assertStatus(200);
+    }
+
     public function testItShouldAddAPost()
     {
         $post = $this->post('api/post', [
@@ -64,5 +89,26 @@ class PostControllerTest extends TestCase
 
         $this->assertEquals('edited post title', Post::find($newPost->id)->first()->title);
         $this->assertEquals('edited post content', Post::find($newPost->id)->first()->content);
+    }
+
+    public function testItShouldDeleteAPostByID()
+    {
+        $newPost = new Post([
+            'title' => 'post title',
+            'content' => 'post content',
+            'user_id' => $this->user->id
+        ]);
+
+        $newPost->save();
+
+        $post = $this->delete('api/post/' . $newPost->id, [], $this->headers($this->user));
+
+        $post->assertJsonStructure([
+            'status'
+        ])->assertJson([
+            'status' => 'ok'
+        ])->assertStatus(200);
+
+        $this->assertEquals(0, Post::count());
     }
 }

@@ -9,6 +9,18 @@ use App\Post;
 
 class PostController extends Controller
 {
+    public function show($id)
+    {
+        $post = Post::find($id)->first();
+
+        return response()->json([
+            'user_id' => $post->user_id,
+            'id' => $post->id,
+            'title' => $post->title,
+            'content' => $post->title
+        ]);
+    }
+
     /**
      * @SWG\Post(
      *     path="/api/post",
@@ -75,12 +87,22 @@ class PostController extends Controller
      *     )
      * )
      */
-    public function update($postId, PostRequest $request)
+    public function update($id, PostRequest $request)
     {
-        $post = Post::find($postId);
+        $post = Post::find($id);
         $post->title = $request->input('title');
         $post->content = $request->input('content');
         $post->save();
+
+        return response()->json([
+            'status' => 'ok'
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        $post = Post::find($id);
+        $post->delete();
 
         return response()->json([
             'status' => 'ok'

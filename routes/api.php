@@ -33,7 +33,7 @@ $api->version('v1', function (Router $api) {
 
     $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
         $api->resource('post', 'App\\Api\\V1\\Controllers\\PostController', ['only' => [
-            'store', 'update'
+            'show', 'store', 'update', 'destroy'
         ]]);
     });
 });

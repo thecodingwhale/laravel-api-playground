@@ -24,6 +24,8 @@ class PostControllerTest extends TestCase
         $this->user->save();
     }
 
+    // it should throw an error if post Id is not givent
+    // it should show an error if there are no return post by the given given post id
     public function testItShouldGetAPostByID()
     {
         $newPost = new Post([
